@@ -32,13 +32,13 @@
           {{ a.name }}
         </td>
         <td>
-          {{ a.priceUsd }}
+          {{ a.priceUsd | dollar }}
         </td>
         <td>
-          {{ a.marketCapUsd }}
+          {{ a.marketCapUsd | dollar }}
         </td>
         <td>
-          {{ a.changePercent24Hr }}
+          {{ a.changePercent24Hr | percent }}
         </td>
         <td class="hidden sm:block"></td>
       </tr>
