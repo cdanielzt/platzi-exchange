@@ -21,6 +21,11 @@ function getRequest(method) {
     }); // Syntax error: unexpected end of input
 }
 
+function getAsset(coin) {
+  return getRequest(`assets/${coin}`);
+}
+
 export default {
   getAssets,
+  getAsset,
 };
