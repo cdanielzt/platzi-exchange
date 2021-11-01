@@ -1,16 +1,11 @@
 <template>
   <div class="flex-col">
-    <template v-if="asset.id">
+    <template>
       <div class="flex flex-col sm:flex-row justify-around items-center">
         <div class="flex flex-col items-center">
-          <img
-            :src="`https://static.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`"
-            :alt="asset.name"
-            class="w-20 h-20 mr-5"
-          />
+          <img class="w-20 h-20 mr-5" />
           <h1 class="text-5xl">
-            {{ asset.name }}
-            <small class="sm:mr-2 text-gray-500">{{ asset.symbol }}</small>
+            <small class="sm:mr-2 text-gray-500"></small>
           </h1>
         </div>
 
@@ -18,27 +13,27 @@
           <ul>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Ranking</b>
-              <span>#{{ asset.rank }}</span>
+              <span></span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio actual</b>
-              <span>{{ asset.priceUsd | dollar }}</span>
+              <span></span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio más bajo</b>
-              <span>{{ min | dollar }}</span>
+              <span></span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio más alto</b>
-              <span>{{ max | dollar }}</span>
+              <span></span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio Promedio</b>
-              <span>{{ avg | dollar }}</span>
+              <span></span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Variación 24hs</b>
-              <span>{{ asset.changePercent24Hr | percent }}</span>
+              <span></span>
             </li>
           </ul>
         </div>
@@ -89,37 +84,13 @@
 
 <script>
 import api from '@/api';
-
 export default {
   name: 'CoinDetail',
-
   data() {
     return {
       asset: {},
-      history: [],
     };
   },
-
-  computed: {
-    min() {
-      return Math.min(
-        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
-      );
-    },
-
-    max() {
-      return Math.max(
-        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
-      );
-    },
-
-    avg() {
-      return Math.abs(
-        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
-      );
-    },
-  },
-
   created() {
     this.getCoin();
   },
@@ -127,21 +98,8 @@ export default {
   methods: {
     getCoin() {
       const id = this.$route.params.id;
-
-      Promise.all([api.getAsset(id), api.getAssetHistory(id)]).then(
-        ([asset, history]) => {
-          this.asset = asset;
-          this.history = history;
-        }
-      );
+      api.getAsset(id).then((asset) => (this.asset = asset));
     },
   },
 };
 </script>
-
-<style scoped>
-td {
-  padding: 10px;
-  text-align: center;
-}
-</style>
