@@ -9,7 +9,7 @@
             :alt="asset.name"
           />
           <h1 class="text-5xl">
-            <small class="sm:mr-2 text-gray-500"></small>
+            <small class="sm:mr-2 text-gray-500">{{ asset.symbol }}</small>
           </h1>
         </div>
 
@@ -17,27 +17,27 @@
           <ul>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Ranking</b>
-              <span></span>
+              <span> {{ asset.rank }}</span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio actual</b>
-              <span></span>
+              <span> {{ asset.priceUsd | dollar }}</span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio más bajo</b>
-              <span></span>
+              <span> {{ min | dollar}} </span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio más alto</b>
-              <span></span>
+              <span> {{ max | dollar}}</span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio Promedio</b>
-              <span></span>
+              <span> {{ avg | dollar }} </span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Variación 24hs</b>
-              <span></span>
+              <span> {{ asset.changePercent24Hr | percent }}</span>
             </li>
           </ul>
         </div>
@@ -93,7 +93,27 @@ export default {
   data() {
     return {
       asset: {},
+      history: [],
     };
+  },
+  computed: {
+    min() {
+      return Math.min(
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+      );
+    },
+
+    max() {
+      return Math.max(
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+      );
+    },
+    avg() {
+      return (
+        this.history.reduce((a, b) => a + parseFloat(b.priceUsd), 0) /
+        this.history.length
+      );
+    },
   },
   created() {
     this.getCoin();
@@ -102,7 +122,12 @@ export default {
   methods: {
     getCoin() {
       const id = this.$route.params.id;
-      api.getAsset(id).then((asset) => (this.asset = asset));
+      Promise.all([api.getAsset(id), api.getAssetHistory(id)]).then(
+        ([asset, history]) => {
+          this.asset = asset;
+          this.history = history;
+        }
+      );
     },
   },
 };
