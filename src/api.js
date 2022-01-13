@@ -1,17 +1,19 @@
 const url = 'https://api.coincap.io/v2';
 
+var requestOptions = {
+  mode: 'cors',
+  method: 'GET',
+  headers: {
+    Accept: 'application/json',
+  },
+};
+
 function getAssets() {
   return getRequest('assets?limit=20');
 }
 
 function getRequest(method) {
-  return fetch(`${url}/${method}`, {
-    mode: 'cors',
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-    },
-  })
+  return fetch(`${url}/${method}`, requestOptions)
     .then((response) => response.json())
     .then((response) => {
       return response.data;
@@ -37,8 +39,22 @@ function getAssetHistory(coin) {
     .then((res) => res.data);
 }
 
+function getMarkets(coin) {
+  return fetch(`${url}/assets/${coin}/markets?limit=5`, requestOptions)
+    .then((res) => res.json())
+    .then((res) => res.data);
+}
+
+function getExchange(id) {
+  return fetch(`${url}/exchanges/${id}`, requestOptions)
+    .then((res) => res.json())
+    .then((res) => res.data);
+}
+
 export default {
   getAssets,
   getAsset,
   getAssetHistory,
+  getMarkets,
+  getExchange,
 };
