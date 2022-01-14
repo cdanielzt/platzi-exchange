@@ -14,8 +14,10 @@
       rounded
     "
   >
-  <beat-loader :loading="isLoading" :color="'#68d391'" :size="8" />
-    <slot v-show="isLoading"></slot>
+    <beat-loader :loading="isLoading" :color="'#68d391'" :size="8" />
+    <p v-show="!isLoading">
+      <slot></slot>
+    </p>
   </button>
 </template>
 
@@ -26,7 +28,7 @@ export default {
     isLoading: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   methods: {
     buttonClick() {
