@@ -1,24 +1,18 @@
-# platzi-exchange
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5a23d785-4269-4c16-9299-65fe1cf1d5b2/deploy-status)](https://app.netlify.com/sites/exchange-cz/deploys)
 
-## Project setup
-```
-npm install
-```
+# Platzi exchange
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Visualiza las principales criptomonedas, historial, precio actual y mejores ofertas.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Proyecto realizado para el curso básico de Vue.js 2 de Platzi utilizando la [API de Coincap](https://docs.coincap.io/).
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Tecnologías usadas
+- Vue Js
+- Tailwind
+- Apí fetch
+
+
+### Ver en vivo
+Puedes ver el sitio en vivo https://exchange-cz.netlify.app/
+
